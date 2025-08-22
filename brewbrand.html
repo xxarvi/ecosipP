@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecosip - Sustainable Coffee Sleeves</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --dark-bg: #0f0f0f;
+            --dark-card: #1a1a1a;
+            --dark-nav: #141414;
+            --dark-text: #e0e0e0;
+            --dark-secondary-text: #a0a0a0;
+            --primary: #3CA374;
+            --primary-dark: #2E8B57;
+            --primary-light: #8FDEBD;
+            --secondary: #FF9B50;
+            --secondary-dark: #E5893D;
+            --accent: #FF6B6B;
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent) 0%, #FF8E8E 100%);
+            --shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+            --shadow-hover: 0 12px 20px rgba(0, 0, 0, 0.7);
+            --transition: all 0.3s ease;
+            --border-radius: 16px;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 5% 10%, rgba(143, 222, 189, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 95% 80%, rgba(255, 155, 80, 0.08) 0%, transparent 25%);
+        }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-nav);
+            color: var(--dark-text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-logo {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .loading-text {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+            color: var(--dark-secondary-text);
+        }
+
+        .coffee-loader {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+
+        .coffee-cup {
+            width: 60px;
+            height: 50px;
+            background: var(--dark-card);
+            border-radius: 0 0 15px 15px;
+            position: relative;
+            margin: 0 auto;
+            box-shadow: 0 0 0 4px var(--secondary), 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .coffee-cup:before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 25px;
+            border: 6px solid var(--dark-card);
+            border-left: none;
+            border-radius: 0 25px 25px 0;
+            right: -20px;
+            top: 8px;
+        }
+
+        .steam {
+            position: absolute;
+            width: 12px;
+            height: 20px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            opacity: 0.7;
+            bottom: 50px;
+            animation: steam 2s infinite;
+        }
+
+        .steam:nth-child(1) {
+            left: 25px;
+            animation-delay: 0.5s;
+        }
+
+        .steam:nth-child(2) {
+            left: 40px;
+            animation-delay: 0.2s;
+        }
+
+        .steam:nth-child(3) {
+            left: 55px;
+            animation-delay: 0.7s;
+        }
+
+        @keyframes steam {
+            0% { transform: translateY(0) scale(1); opacity: 0.7; }
+            100% { transform: translateY(-30px) scale(1.5); opacity: 0; }
+        }
+
+        /* Navigation */
+        nav {
+            background-color: rgba(20, 20, 20, 0.95);
+            box-shadow: var(--shadow);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .logo i {
+            margin-right: 8px;
+            color: var(--secondary);
+            transition: var(--transition);
+        }
+
+        .logo:hover i {
+            transform: rotate(-15deg);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: var(--dark-text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 8px 0;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--secondary);
+            transition: var(--transition);
+            border-radius: 3px;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        #hero {
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 0 20px;
+            background: linear-gradient(135deg, rgba(15, 15, 15, 0.9) 0%, rgba(26, 26, 26, 0.9) 100%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+            animation: fadeInUp 1s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--dark-secondary-text);
+            margin-bottom: 40px;
+            font-weight: 400;
+            animation: fadeInUp 1s ease 0.3s forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: var(--gradient-secondary);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            border: none;
+            cursor: pointer;
+            animation: fadeInUp 1s ease 0.6s forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Decorative elements */
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            top: -150px;
+            left: -150px;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            background: var(--secondary);
+            bottom: -100px;
+            right: -100px;
+            animation: float 12s ease-in-out infinite reverse;
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+        /* About Section */
+        #about {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-text {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--dark-secondary-text);
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 600;
+            background: linear-gradient(120deg, rgba(143, 222, 189, 0.2) 0%, transparent 100%);
+            padding: 0 4px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .team-member {
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .team-member:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--gradient-primary);
+            transition: var(--transition);
+        }
+
+        .team-member:hover:before {
+            width: 100%;
+            opacity: 0.1;
+        }
+
+        .team-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .team-member h3 {
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .team-member p {
+            color: var(--dark-secondary-text);
+            font-size: 0.9rem;
+        }
+
+        /* Packaging Section */
+        #packaging {
+            background-color: var(--dark-card);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 40px auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #packaging:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-primary);
+        }
+
+        .packaging-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        /* Product Mockup Frame */
+        .product-mockup-frame {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background: var(--dark-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .product-mockup {
+            width: 90%;
+            height: 90%;
+            background: linear-gradient(45deg, #2a2a2a, #1e1e1e);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-secondary-text);
+            font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-mockup:before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="rgba(255,255,255,0.03)"/></svg>');
+            background-size: 20px;
+        }
+
+        .mockup-img {
+            width: 80%;
+            height: 80%;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            transition: var(--transition);
+        }
+
+        .mockup-img:hover {
+            transform: scale(1.05);
+        }
+
+        .packaging-content {
+            padding: 20px;
+        }
+
+        .packaging-content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            color: var(--dark-secondary-text);
+        }
+
+        .packaging-features {
+            list-style: none;
+            margin: 25px 0;
+        }
+
+        .packaging-features li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+            padding: 10px;
+            border-radius: 8px;
+            color: var(--dark-text);
+        }
+
+        .packaging-features li:hover {
+            transform: translateX(5px);
+            background: rgba(143, 222, 189, 0.1);
+        }
+
+        .packaging-features i {
+            color: var(--primary);
+            margin-right: 12px;
+            font-size: 1.2rem;
+            background: rgba(46, 139, 87, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .packaging-features li:hover i {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Scanner Section */
+        #scanner {
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: var(--border-radius);
+            margin: 60px auto;
+            padding: 60px 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #scanner:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: 30px;
+        }
+
+        .scanner-title {
+            color: white;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .scanner-title::after {
+            background: var(--secondary);
+        }
+
+        .scanner-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            position: relative;
+        }
+
+        .scanner-ui {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .scanner-ui:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .camera-view {
+            width: 100%;
+            height: 280px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .viewfinder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border: 2px solid var(--secondary);
+            border-radius: 12px;
+            box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.5);
+        }
+
+        .scan-line {
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: var(--secondary);
+            top: 0;
+            animation: scan 2s infinite ease-in-out;
+            box-shadow: 0 0 10px var(--secondary);
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            50% { top: calc(100% - 3px); }
+            100% { top: 0; }
+        }
+
+        .scan-btn {
+            background: var(--gradient-secondary);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(244, 164, 96, 0.3);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .scan-btn i {
+            margin-right: 10px;
+        }
+
+        .scan-btn:hover {
+            background: var(--gradient-secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(244, 164, 96, 0.4);
+        }
+
+        .scanner-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .scanner-content p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .scanner-benefits {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .scanner-benefits li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            transition: var(--transition);
+        }
+
+        .scanner-benefits li:hover {
+            transform: translateX(5px);
+        }
+
+        .scanner-benefits i {
+            color: var(--secondary);
+            margin-right: 10px;
+            font-size: 1.2rem;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .impact-box {
+            background: var(--dark-card);
+            color: var(--dark-text);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .impact-title {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .impact-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .stat {
+            background: var(--dark-bg);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: var(--transition);
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--secondary);
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--dark-secondary-text);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-nav);
+            color: white;
+            padding: 60px 20px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-secondary);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .footer-logo {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .footer-logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+
+        .footer-text {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.7;
+            color: var(--dark-secondary-text);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .social-links li {
+            margin: 0 15px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: var(--transition);
+            display: flex;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-links a:hover {
+            color: var(--secondary);
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: var(--primary-light);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .packaging-container,
+            .scanner-container {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+            
+            section {
+                padding: 80px 20px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .impact-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-logo">Ecosip</div>
+        <div class="loading-text">Brewing a better planet...</div>
+        <div class="coffee-loader">
+            <div class="steam"></div>
+            <div class="steam"></div>
+            <div class="steam"></div>
+            <div class="coffee-cup"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo"><i class="fas fa-leaf"></i>Ecosip</div>
+            <ul class="nav-links">
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#packaging">Packaging</a></li>
+                <li><a href="#scanner">Scan & Earn</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">EcoSip</h1>
+            <p class="hero-subtitle">Revolutionary reusable coffee sleeves that reward you for saving the planet</p>
+            <a href="#scanner" class="cta-button">Start using</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">About Ecosip</h2>
+        <div class="about-content">
+            <p class="about-text">At <span class="highlight">Ecosip</span>, we're passionate about coffee and our planet. We've created a reusable coffee sleeve that not only protects your hands but also protects the environment. Join us in our mission to reduce waste one cup at a time.</p>
+            <p class="about-text">Our product is made from eco-friendly materials and designed to last for several uses.</p>
+            
+            <div class="team-grid">
+                
+                    </div>
+                    <h3>Eco-friendly</h3>
+                    <p>reduces single-use cup waste.</p>
+                </div>
+                
+                    </div>
+                    <h3>Reusable & durable</h3>
+                    <p>lasts longer than paper sleeves.</p>
+                </div>
+                
+                        
+                    </div>
+                    <h3>Cost-saving</h3>
+                    <p>rewards, discounts, and points for use.</p>
+                </div>
+
+                        
+                    </div>
+                    <h3>Convenient</h3>
+                    <p>easy to carry, fits most cups.</p>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Packaging Section -->
+    <section id="packaging">
+        <h2 class="section-title">Our Eco-Friendly Packaging</h2>
+        <div class="packaging-container">
+            <div class="product-mockup-frame">
+                <div class="product-mockup">
+                    <img src="https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1024&h=717&q=80" alt="Ecosip Coffee Sleeve" class="mockup-img">
+                </div>
+            </div>
+            <div class="packaging-content">
+                <p>Our reusable coffee sleeves are designed with both style and sustainability in mind. Each sleeve is crafted from high-quality, eco-friendly materials that are built to last.</p>
+                <ul class="packaging-features">
+                    <li><i class="fas fa-check"></i>Sustainable – made from recyclable / biodegradable materials.</li>
+                    <li><i class="fas fa-check"></i>Reusable or compostable – doesn’t end up in landfills.</li>
+                    <li><i class="fas fa-check"></i>Safe & durable – protects the product without plastic.</li>
+                    <li><i class="fas fa-check"></i>Customizable designs for businesses</li>
+                    <li><i class="fas fa-check"></i>Fits most standard cup sizes</li>
+                </ul>
+                <p>By using an Ecosip sleeve, you're helping to reduce single-use waste and make a positive impact on the environment. Each sleeve can replace hundreds of disposable alternatives.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scanner Section -->
+    <section id="scanner">
+        <h2 class="section-title scanner-title">Scan & Earn Rewards</h2>
+        <div class="scanner-container">
+            <div class="scanner-ui">
+                <div class="camera-view">
+                    <div class="viewfinder"></div>
+                    <div class="scan-line"></div>
+                </div>
+                <button class="scan-btn" id="scan-btn"><i class="fas fa-camera"></i>Scan Now</button>
+            </div>
+            <div class="scanner-content">
+                <p>Each time you use your Ecosip sleeve, scan the QR code to earn points towards rewards and track your environmental impact.</p>
+                
+                <ul class="scanner-benefits">
+                    <li><i class="fas fa-gift"></i>Earn points for free coffee and discounts</li>
+                    <li><i class="fas fa-leaf"></i>Track your environmental impact</li>
+                    <li><i class="fas fa-trophy"></i>Unlock achievement badges</li>
+                    <li><i class="fas fa-users"></i>Join our community of eco-warriors</li>
+                </ul>
+                
+                <div class="impact-box" id="impact-box">
+                    <h3 class="impact-title">Your Impact</h3>
+                    <div class="impact-stats">
+                        <div class="stat">
+                            <div class="stat-number">+10</div>
+                            <div class="stat-label">Points Earned</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">15</div>
+                            <div class="stat-label">Total Points</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">2</div>
+                            <div class="stat-label">Cups Saved</div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo"><i class="fas fa-leaf"></i>Ecosip</div>
+            <p class="footer-text">Sustainable solutions for coffee lovers. Join us in our mission to reduce waste and protect our planet, one cup at a time.</p>
+            <ul class="social-links">
+                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+            </ul>
+            <div class="copyright">© 2025 Ecosip. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Hide loading screen after 3 seconds
+        setTimeout(() => {
+            document.getElementById('loading-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.display = 'none';
+            }, 500);
+        }, 3000);
+        
+        // Scanner functionality
+        document.getElementById('scan-btn').addEventListener('click', function() {
+            const impactBox = document.getElementById('impact-box');
+            const scanBtn = document.getElementById('scan-btn');
+            
+            // Show scanning animation
+            scanBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Scanning...';
+            scanBtn.disabled = true;
+            
+            // Simulate scanning process
+            setTimeout(() => {
+                // Show impact box with animation
+                impactBox.style.display = 'block';
+                
+                // Reset button
+                setTimeout(() => {
+                    scanBtn.innerHTML = '<i class="fas fa-camera"></i> Scan Now';
+                    scanBtn.disabled = false;
+                }, 2000);
+            }, 2000);
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add intersection observer for animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for animation
+            const animatedElements = document.querySelectorAll('.team-member, .packaging-features li, .scanner-benefits li');
+            animatedElements.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
